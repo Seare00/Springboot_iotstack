@@ -1,11 +1,18 @@
 --Tabell
-drop database if exists tempsensor;
-create database tempsensor;
-use tempsensor;
+drop database if exists sensors;
+create database sensors;
 
-create table tempsensor (
+USE sensors;
+
+create table temperatur (
     id int auto_increment primary key,
-    sensor_id varchar(100) not null,
-    tid timestamp default current_timestamp,
-    temperatur decimal(5,2) not null
+    temp_value float not null,
+    timestamp timestamp default current_timestamp
 );
+--för information för koppling mellan python script och sql.
+drop user arduino;
+CREATE USER 'arduino'@'%' IDENTIFIED BY 'password';
+GRANT INSERT ON sensors.temperatur TO 'arduino'@'%';
+
+-- för att kolla temp data tabellen. om allt funkar så dyker temp datan i 1 sekunds interval.
+select * from temperatur;
