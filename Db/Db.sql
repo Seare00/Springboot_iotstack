@@ -5,9 +5,9 @@ create database sensors;
 USE sensors;
 
 create table temperatur (
-    id int auto_increment primary key,
-    temp_value float not null,
-    timestamp timestamp default current_timestamp
+    Id int auto_increment primary key,
+    Temp float not null,
+    Datum timestamp default current_timestamp
 );
 --för information för koppling mellan python script och sql.
 drop user arduino;
