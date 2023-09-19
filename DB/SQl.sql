@@ -1,4 +1,4 @@
---Tabel
+--Tabell
 drop database if exists sensors;
 create database sensors;
 
