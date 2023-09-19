@@ -11,7 +11,7 @@ db = mysql.connector.connect(
 
 cursor = db.cursor()
 
-# Beroende vilken COM din arduino IDE så ska den ändras.
+#  COM ändras beroende på vilken din arduino IDE använder.
 ser = serial.Serial('COM4', 9600)
 
 try:
@@ -26,7 +26,7 @@ try:
             db.commit()
             print(f"Sparar temp {temperatur} i SQL DB.")
         except ValueError:
-            #Felaktig dataformat ger denna meddelande.
+            #Felaktig dataformat, triggar denna meddelande.
             print(f"Felaktig data: {line}")
 
 except KeyboardInterrupt:
