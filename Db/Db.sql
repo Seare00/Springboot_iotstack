@@ -9,7 +9,7 @@ create table temperatur (
     Temp float not null,
     Datum timestamp default current_timestamp
 );
---för information för koppling mellan python script och sql.
+--Information för kopplingen mellan python script och sql.
 drop user arduino;
 CREATE USER 'arduino'@'%' IDENTIFIED BY 'password';
 GRANT INSERT ON sensors.temperatur TO 'arduino'@'%';
