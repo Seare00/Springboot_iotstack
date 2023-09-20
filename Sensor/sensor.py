@@ -16,7 +16,7 @@ ser = serial.Serial('COM4', 9600)
 
 try:
     while True:
-        # Läser en linje av arduino temperatur datan)
+        # Läser en linje av arduino temperatur datan.
         line = ser.readline().decode('utf-8').strip()
         
         try:
