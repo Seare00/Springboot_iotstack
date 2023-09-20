@@ -1,7 +1,7 @@
 import serial
 import mysql.connector
 
-# Set up database connection
+# databas info
 db = mysql.connector.connect(
     host="localhost",
     user="arduino",
