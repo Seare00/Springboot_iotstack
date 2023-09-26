@@ -1,18 +1,52 @@
---Tabell
+-- MySQL
+-- Tabell
 drop database if exists sensors;
 create database sensors;
 
 USE sensors;
 
-create table temperatur (
-    Id int auto_increment primary key,
-    Temp float not null,
-    Datum timestamp default current_timestamp
+CREATE TABLE temperature (
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+    temp FLOAT NOT NULL,
+    datum TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
---Information för kopplingen mellan python script och sql.
+-- Information för kopplingen mellan python script och sql.
 drop user arduino;
 CREATE USER 'arduino'@'%' IDENTIFIED BY 'password';
-GRANT INSERT ON sensors.temperatur TO 'arduino'@'%';
+GRANT ALL PRIVILEGES ON sensors.temperature TO 'arduino'@'%';
 
--- för att kolla temp data tabellen. om allt funkar så dyker temp datan i 1 sekunds interval.
-select * from temperatur;
+
+-- POSTGRESQL
+
+sudo -i -u postgres
+psql
+
+CREATE USER arduino WITH PASSWORD 'password';
+CREATE DATABASE sensors;
+GRANT ALL PRIVILEGES ON DATABASE sensors TO arduino;
+\q
+
+psql -U arduino -d sensors
+
+CREATE TABLE temperature (
+    id SERIAL PRIMARY KEY,
+    temp FLOAT NOT NULL,
+    datum TIMESTAMP(0) DEFAULT NOW()
+);
+
+-- Alternative
+CREATE TABLE temperature (
+    id SERIAL PRIMARY KEY,
+    temp FLOAT NOT NULL,
+    datum TIMESTAMP(0) DEFAULT NOW(),
+    plats VARCHAR(50) NOT NULL -- Change in pyscript (query(temp,plats))
+);
+
+-- One table for each sensor reading (plats = uppsala/stockholm....)
+CREATE TABLE plats (
+    id SERIAL PRIMARY KEY,
+    temp FLOAT NOT NULL,
+    datum TIMESTAMP(0) DEFAULT NOW()
+);
+
+
