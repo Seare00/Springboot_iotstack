@@ -31,22 +31,7 @@ psql -U arduino -d sensors
 CREATE TABLE temperature (
     id SERIAL PRIMARY KEY,
     temp FLOAT NOT NULL,
-    datum TIMESTAMP(0) DEFAULT NOW()
-);
-
--- Alternative
-CREATE TABLE temperature (
-    id SERIAL PRIMARY KEY,
-    temp FLOAT NOT NULL,
     datum TIMESTAMP(0) DEFAULT NOW(),
-    plats VARCHAR(50) NOT NULL -- Change in pyscript (query(temp,plats))
+    plats VARCHAR(50) NOT NULL
 );
-
--- One table for each sensor reading (plats = uppsala/stockholm....)
-CREATE TABLE plats (
-    id SERIAL PRIMARY KEY,
-    temp FLOAT NOT NULL,
-    datum TIMESTAMP(0) DEFAULT NOW()
-);
-
 
