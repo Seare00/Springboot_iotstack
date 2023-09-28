@@ -8,6 +8,8 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+
+/* Entity class as per database */
 @Entity
 @Table(name = "temperature")
 public class Temperature {
@@ -18,17 +20,22 @@ public class Temperature {
 	private Long id;
 	@Getter@Setter
 	private double temp;
+	@Getter@Setter
+	private String plats;
 	
-	public Temperature() {
-		
+	public Temperature() {	
 	}
 	
-	public Temperature(double temp) {
+	public Temperature(double temp, String plats) {
 		this.temp = temp;
+		this.plats = plats;
 	}
 	
 	public double getTemp() {
 		return temp;
 	}
 	
+	public String getPlats() {
+		return plats;
+	}
 }
