@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="container">
+    <h1>Temperature Dashboard</h1>
+
+    <!-- Temp graph -->
+    <div class="chart-container" style="position: relative; width:100%; height:50vh;">
+        <canvas id="temperatureChart"></canvas>
+    </div>
+
+    <!-- ... -->
+    <!-- Table -->
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Temp</th>
+            <th>Datum</th>  <!-- New Datum column -->
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="temp : ${temperatures}">
+            <td th:text="${temp.id}"></td>
+            <td th:text="${temp.temp}"></td>
+            <td th:text="${#dates.format(temp.date, 'dd-MM-yyyy HH:mm:ss')}"></td> <!-- Datum column -->
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+
+    async function updateData() {
+        const response = await fetch('http://localhost:8080/latest_temperatures');
+        const data = await response.json();
+
+        const labels = data.map((temp, index) => index);
+        const temperatureData = data.map(temp => temp.temp);
+
+        temperatureChart.data.labels = labels;
+        temperatureChart.data.datasets[0].data = temperatureData;
+        temperatureChart.update();
+
+
+        let tableHTML = '';
+        for (const temp of data) {
+            tableHTML += `<tr><td>${temp.id}</td><td>${temp.temp}</td><td>${new Date(temp.date).toLocaleString()}</td></tr>`;
+        }
+        document.getElementById('temperatureTable').innerHTML = tableHTML;
+    }
+
+    const ctx = document.getElementById('temperatureChart').getContext('2d');
+    const temperatureChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Temperature in C',
+                data: [],
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                x: { beginAtZero: true },
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Update the graph and table every second
+    setInterval(updateData, 1000);
+</script>
+</body>
+</html>
